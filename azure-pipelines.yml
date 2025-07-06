@@ -50,19 +50,19 @@ stages:
         inputs:
           command: 'plan'
           allowTelemetryCollection: true
-          providerServiceAws: 'aws-connection'
+          providerServiceAws: 'aws-modern-connection'
           providerAwsRegion: 'ap-south-1'
       - task: TerraformCLI@2
         inputs:
           command: 'apply'
           allowTelemetryCollection: true
-          providerServiceAws: 'aws-connection'
+          providerServiceAws: 'aws-modern-connection'
           providerAwsRegion: 'ap-south-1'
 
       - task: TerraformCLI@2
         inputs:
           command: 'destroy'
           allowTelemetryCollection: true
-          providerServiceAws: 'aws-connection'
+          providerServiceAws: 'aws-modern-connection'
           providerAwsRegion: 'ap-south-1'
       
