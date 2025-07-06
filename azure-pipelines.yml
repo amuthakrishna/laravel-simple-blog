@@ -40,7 +40,8 @@ stages:
               cat main.tf
             displayName: 'Build, Push and Update main.tf'
           - script: |
-              git checkout $(Build.SourceBranchName)
+              git fetch origin
+              git checkout -B $(Build.SourceBranchName) origin/$(Build.SourceBranchName)
               git config user.email "amuthakrishna1988@gmail.com"
               git config user.name "amuthakrishna"
               git add main.tf
