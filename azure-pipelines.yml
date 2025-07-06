@@ -28,16 +28,15 @@ stages:
         steps:
           - script: |
               set -e
-              echo "Building the Docker image..."
+              echo "Building Docker image: $(IMAGE_NAME):$(IMAGE_TAG)"
               docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
 
-              echo "Pushing the Docker image..."
+              echo "Pushing image..."
               docker push $(IMAGE_NAME):$(IMAGE_TAG)
 
-              echo "Updating container_image in main.tf..."
+              echo "Updating main.tf..."
               sed -i "s|container_image *= *\\\".*\\\"|container_image = \\\"$(IMAGE_NAME):$(IMAGE_TAG)\\\"|" main.tf
-              
-              echo "Updated main.tf content:"
+              echo "main.tf after update:"
               cat main.tf
             displayName: 'Build, Push and Update main.tf'
 
