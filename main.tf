@@ -6,11 +6,9 @@ module "ecs" {
   aws_ecs_cluster              = "mycluster"
   cloud_watch_name             = "/ecs/my-ecs-service"
   aws_ecs_service_name         = "ecs-service"
-  container_image              = var.container_image
+  container_image              = "krishnamoorthy1/simple-blog:$(Build.BuildId)"
   aws_ecs_task_definition_name = "mytask"
 }
 
-variable "container_image" {
-  description = "ECS container image with tag"
-}
+
 

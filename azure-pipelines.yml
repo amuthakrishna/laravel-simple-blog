@@ -40,6 +40,15 @@ stages:
               cat main.tf
             displayName: 'Build, Push and Update main.tf'
 
+          - script: |
+              git config user.email "build-agent@example.com"
+              git config user.name "Build Agent"
+              git add main.tf
+              git commit -m "Update container_image to $(IMAGE_NAME):$(IMAGE_TAG)"
+              git push origin main
+            displayName: 'Commit updated main.tf'
+    
+
   - stage: TerraformDeploy
     displayName: 'Terraform'
     dependsOn: BuildPush
