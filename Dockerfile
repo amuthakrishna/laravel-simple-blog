@@ -54,6 +54,8 @@ WORKDIR /var/www/html
 
 COPY laravel-simple-blog .
 
+
+
 RUN composer update --prefer-dist --no-interaction
 RUN composer dump-autoload 
 RUN php artisan config:clear \
@@ -62,8 +64,9 @@ RUN php artisan config:clear \
     && php artisan route:cache \
     && php artisan optimize
 
-RUN chmod -R 777 laravel-simple-blog
-RUN chown -R www-data:www-data laravel-simple-blog
+# Fix permissions
+RUN chmod -R 775 storage bootstrap/cache
+RUN chown -R www-data:www-data .
 
 # Expose port 8000 for Laravel development server
 EXPOSE 8000
