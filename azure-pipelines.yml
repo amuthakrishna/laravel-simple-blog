@@ -59,10 +59,3 @@ stages:
           providerServiceAws: 'aws-modern-connection'
           providerAwsRegion: 'ap-south-1'
 
-      - task: TerraformCLI@2
-        inputs:
-          command: 'destroy'
-          allowTelemetryCollection: true
-          providerServiceAws: 'aws-modern-connection'
-          providerAwsRegion: 'ap-south-1'
-      
