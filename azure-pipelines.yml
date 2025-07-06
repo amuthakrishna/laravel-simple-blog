@@ -1,0 +1,68 @@
+trigger:
+  - main
+
+pool:
+  name: 'Default'
+
+variables:
+  - group: docker-creds
+  - group: image-cred
+  - name: IMAGE_TAG
+    value: $(Build.BuildId)
+
+stages:
+  - stage: DockerLogin
+    displayName: Docker Login
+    jobs:
+      - job: DockerLogin
+        steps: 
+          - script: |
+              echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
+            displayName: 'Docker Login'
+
+  - stage: BuildPush
+    displayName: Build, Push and Update main.tf
+    dependsOn: DockerLogin
+    jobs:
+      - job: DockerBuildPush
+        steps:
+          - script: |
+              echo "Building the Docker image..."
+              docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
+
+              echo "Pushing the Docker image..."
+              docker push $(IMAGE_NAME):$(IMAGE_TAG)
+
+              echo "Updating container_image in main.tf..."
+              sed -i 's|container_image *= *".*"|container_image = "$(IMAGE_NAME):$(IMAGE_TAG)"|' main.tf
+            
+  - stage: 
+    displayName: 'Terraform'
+    jobs:
+    - job: Terraform
+      steps: 
+      - task: TerraformCLI@2
+        inputs:
+          command: 'init'
+          backendType: 'aws'
+          allowTelemetryCollection: true
+      - task: TerraformCLI@2
+        inputs:
+          command: 'plan'
+          allowTelemetryCollection: true
+          providerServiceAws: 'aws-connection'
+          providerAwsRegion: 'ap-south-1'
+      - task: TerraformCLI@2
+        inputs:
+          command: 'apply'
+          allowTelemetryCollection: true
+          providerServiceAws: 'aws-connection'
+          providerAwsRegion: 'ap-south-1'
+
+      - task: TerraformCLI@2
+        inputs:
+          command: 'destroy'
+          allowTelemetryCollection: true
+          providerServiceAws: 'aws-connection'
+          providerAwsRegion: 'ap-south-1'
+      
