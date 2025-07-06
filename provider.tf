@@ -25,8 +25,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "test-bucket-pratcle-new-2"
-    key          = "laravel-simple-blog/terraform.tfstate"
+    bucket       = "simpleblogproject"
+    key          = "terrafrom//terraform.tfstate"
     region       = "ap-south-1"
     encrypt      = true
     use_lockfile = true # Boolean (no quotes)
