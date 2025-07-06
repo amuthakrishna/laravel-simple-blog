@@ -57,7 +57,7 @@ stages:
 
           - task: TerraformCLI@2
             inputs:
-              command: 'delete'
+              command: 'destroy'
               allowTelemetryCollection: true
               providerServiceAws: 'aws-modern-connection'
               providerAwsRegion: 'ap-south-1'
