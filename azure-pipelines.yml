@@ -46,6 +46,8 @@ stages:
           command: 'init'
           backendType: 'aws'
           allowTelemetryCollection: true
+          backendServiceAws: 'aws-modern-connection'
+          backendAwsRegion: 'ap-south-1'
       - task: TerraformCLI@2
         inputs:
           command: 'plan'
