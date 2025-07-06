@@ -35,15 +35,16 @@ stages:
               docker push $(IMAGE_NAME):$(IMAGE_TAG)
 
               echo "Updating main.tf..."
-              sed -i "s|container_image *= *\\\".*\\\"|container_image = \\\"$(IMAGE_NAME):$(IMAGE_TAG)\\\"|" main.tf
+              sed -i "s|REPLACE_ME_IMAGE|$(IMAGE_NAME):$(IMAGE_TAG)|" main.tf
               echo "main.tf after update:"
               cat main.tf
             displayName: 'Build, Push and Update main.tf'
-
           - script: |
+              git checkout main
               git config user.email "amuthakrishna1988@gmail.com"
               git config user.name "amuthakrishna"
               git add main.tf
+              git diff --cached --quiet && echo "No changes to commit" && exit 0
               git commit -m "Update container_image to $(IMAGE_NAME):$(IMAGE_TAG)"
               git push origin main
             displayName: 'Commit updated main.tf'
