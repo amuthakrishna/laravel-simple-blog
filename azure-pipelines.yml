@@ -27,6 +27,7 @@ stages:
       - job: DockerBuildPush
         steps:
           - script: |
+              set -e
               echo "Building the Docker image..."
               docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
 
@@ -34,33 +35,36 @@ stages:
               docker push $(IMAGE_NAME):$(IMAGE_TAG)
 
               echo "Updating container_image in main.tf..."
+              sed -i "s|container_image *= *\\\".*\\\"|container_image = \\\"$(IMAGE_NAME):$(IMAGE_TAG)\\\"|" main.tf
+              
+              echo "Updated main.tf content:"
               cat main.tf
-              sed -i "s|container_image *= *\".*\"|container_image = \\\"$(IMAGE_NAME):$(IMAGE_TAG)\\\"|" main.tf
-            
-  - stage: 
+            displayName: 'Build, Push and Update main.tf'
+
+  - stage: TerraformDeploy
     displayName: 'Terraform'
+    dependsOn: BuildPush
     jobs:
-    - job: Terraform
-      steps: 
-      - task: TerraformCLI@2
-        inputs:
-          command: 'init'
-          backendType: 'aws'
-          allowTelemetryCollection: true
-          backendServiceAws: 'aws-modern-connection'
-          backendAwsRegion: 'ap-south-1'
-      - task: TerraformCLI@2
-        inputs:
-          command: 'plan'
-          allowTelemetryCollection: true
-          providerServiceAws: 'aws-modern-connection'
-          providerAwsRegion: 'ap-south-1'
-      - task: TerraformCLI@2
-        inputs:
-          command: 'apply'
-          allowTelemetryCollection: true
-          providerServiceAws: 'aws-modern-connection'
-          providerAwsRegion: 'ap-south-1'
-          commandOptions: '-var="container_image=$(IMAGE_NAME):$(IMAGE_TAG)" -auto-approve'
+      - job: Terraform
+        steps: 
+          - task: TerraformCLI@2
+            inputs:
+              command: 'init'
+              backendType: 'aws'
+              allowTelemetryCollection: true
+              backendServiceAws: 'aws-modern-connection'
+              backendAwsRegion: 'ap-south-1'
 
+          - task: TerraformCLI@2
+            inputs:
+              command: 'plan'
+              allowTelemetryCollection: true
+              providerServiceAws: 'aws-modern-connection'
+              providerAwsRegion: 'ap-south-1'
 
+          - task: TerraformCLI@2
+            inputs:
+              command: 'apply'
+              allowTelemetryCollection: true
+              providerServiceAws: 'aws-modern-connection'
+              providerAwsRegion: 'ap-south-1'
