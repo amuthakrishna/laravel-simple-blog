@@ -34,6 +34,7 @@ stages:
               docker push $(IMAGE_NAME):$(IMAGE_TAG)
 
               echo "Updating container_image in main.tf..."
+              cat main.tf
               sed -i "s|container_image *= *\".*\"|container_image = \\\"$(IMAGE_NAME):$(IMAGE_TAG)\\\"|" main.tf
             
   - stage: 
