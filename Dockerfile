@@ -13,37 +13,37 @@ RUN apt-get update && \
     ln -fs /usr/share/zoneinfo/UTC /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
-# Add PHP 7.1 repository (since Ubuntu 22.04 does not include PHP 7.1 by default)
+# Add PHP 7.3 repository (since Ubuntu 22.04 does not include PHP 7.3 by default)
 #RUN add-apt-repository ppa:ondrej/php \
 #    && apt-get update
 
-# Install PHP 7.1 and required extensions
+# Install PHP 7.3 and required extensions
 RUN apt-get update && apt-get install -y \
     software-properties-common && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update && apt-get install -y \
-    php7.1 \
-    php7.1-fpm \
-    php7.1-bcmath \
-    php7.1-cgi \
-    php7.1-cli \
-    php7.1-common \
-    php7.1-curl \
-    php7.1-dba \
-    php7.1-dev \
-    php7.1-json \
-    php7.1-mbstring \
-    php7.1-mcrypt \
-    php7.1-mysql \
-    php7.1-opcache \
-    php7.1-xml \
-    php7.1-xsl \
-    php7.1-zip \
-    php7.1-bz2 \
-    php7.1-gd \
-    php7.1-intl \
-    php7.1-soap \
-    libapache2-mod-php7.1 && \
+    php7.3 \
+    php7.3-fpm \
+    php7.3-bcmath \
+    php7.3-cgi \
+    php7.3-cli \
+    php7.3-common \
+    php7.3-curl \
+    php7.3-dba \
+    php7.3-dev \
+    php7.3-json \
+    php7.3-mbstring \
+    php7.3-mcrypt \
+    php7.3-mysql \
+    php7.3-opcache \
+    php7.3-xml \
+    php7.3-xsl \
+    php7.3-zip \
+    php7.3-bz2 \
+    php7.3-gd \
+    php7.3-intl \
+    php7.3-soap \
+    libapache2-mod-php7.3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 # Install Composer
