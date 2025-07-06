@@ -65,7 +65,7 @@ RUN php artisan config:clear \
     && php artisan optimize
 
 # Fix permissions
-RUN chmod -R 775 storage bootstrap/cache
+RUN chmod -R 777 storage bootstrap/cache
 RUN chown -R www-data:www-data .
 
 # Expose port 8000 for Laravel development server
