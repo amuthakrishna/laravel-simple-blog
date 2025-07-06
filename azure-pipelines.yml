@@ -41,8 +41,8 @@ stages:
             displayName: 'Build, Push and Update main.tf'
 
           - script: |
-              git config user.email "build-agent@example.com"
-              git config user.name "Build Agent"
+              git config user.email "amuthakrishna1988@gmail.com"
+              git config user.name "amuthakrishna"
               git add main.tf
               git commit -m "Update container_image to $(IMAGE_NAME):$(IMAGE_TAG)"
               git push origin main
