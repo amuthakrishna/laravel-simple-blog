@@ -26,7 +26,7 @@ terraform {
 
   backend "s3" {
     bucket       = "simpleblogproject"
-    key          = "terrafrom/terraform.tfstate"
+    key          = "test/terraform.tfstate"
     region       = "ap-south-1"
     encrypt      = true
     use_lockfile = true # Boolean (no quotes)

@@ -4,17 +4,13 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
-        $this->call([
-            PermissionsTableSeeder::class,
-            RolesTableSeeder::class,
-            PermissionRoleTableSeeder::class,
-            UsersTableSeeder::class,
-            RoleUserTableSeeder::class,
-            CategoriesTableSeeder::class,
-            StatusesTableSeeder::class,
-            PrioritiesTableSeeder::class,
-        ]);
+        // $this->call(UsersTableSeeder::class);
     }
 }
