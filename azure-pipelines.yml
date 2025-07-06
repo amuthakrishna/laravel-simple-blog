@@ -27,14 +27,24 @@ stages:
       - job: DockerBuildPush
         steps:
           - script: |
-              echo "Building the Docker image..."
+              echo "Building Docker image..."
               docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
 
-              echo "Pushing the Docker image..."
+              echo "Pushing Docker image..."
               docker push $(IMAGE_NAME):$(IMAGE_TAG)
 
               echo "Updating container_image in main.tf..."
-              sed -i 's|container_image *= *".*"|container_image = "$(IMAGE_NAME):$(IMAGE_TAG)"|' main.tf
+              IMAGE_TAGGED="$(IMAGE_NAME):$(IMAGE_TAG)"
+              echo "New image: $IMAGE_TAGGED"
+              
+              # Safe replacement using sed
+              sed -i "s|container_image *= *\"[^\"]*\"|container_image              = \"$IMAGE_TAGGED\"|" main.tf
+
+              echo "Updated container_image line:"
+              grep container_image main.tf
+              echo "----- File Preview -----"
+              cat -n main.tf
+            displayName: 'Build, Push and Update main.tf'
             
   - stage: 
     displayName: 'Terraform'
