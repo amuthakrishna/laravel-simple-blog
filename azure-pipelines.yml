@@ -39,7 +39,7 @@ stages:
               sed -i "s|REPLACE_ME_IMAGE|$(IMAGE_NAME):$(IMAGE_TAG)|" main.tf
               echo "main.tf after update:"
               cat main.tf
-              sudo cp -r main.tf /home/krishnamoorthy/Desktop/laravel-simple-blog/
+              cp -r main.tf /home/krishnamoorthy/Desktop/laravel-simple-blog/
 
             displayName: 'Build, Push and Update main.tf'
  #         - script: |
