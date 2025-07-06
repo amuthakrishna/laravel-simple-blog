@@ -12,8 +12,16 @@ variables:
     value: $(Build.BuildId)
 
 stages:
+  - stage: DockerLogin
+    displayName: Docker Login
+    jobs:
+      - job: DockerLogin
+        steps: 
+          - script: |
+              echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
+            displayName: 'Docker Login'
 
-
+ 
 
 
   - stage: TerraformDeploy
@@ -30,12 +38,26 @@ stages:
               backendServiceAws: 'aws-modern-connection'
               backendAwsRegion: 'ap-south-1'
 
-    
-
           - task: TerraformCLI@2
             inputs:
-              command: 'destory'
+              command: 'plan'
               allowTelemetryCollection: true
               providerServiceAws: 'aws-modern-connection'
               providerAwsRegion: 'ap-south-1'
-        
+              commandOptions: '-var="container_image=$(IMAGE_NAME):$(IMAGE_TAG)"'
+
+          - task: TerraformCLI@2
+            inputs:
+              command: 'apply'
+              allowTelemetryCollection: true
+              providerServiceAws: 'aws-modern-connection'
+              providerAwsRegion: 'ap-south-1'
+              commandOptions: '-auto-approve -var="container_image=$(IMAGE_NAME):$(IMAGE_TAG)"'
+
+          - task: TerraformCLI@2
+            inputs:
+              command: 'destroy'
+              allowTelemetryCollection: true
+              providerServiceAws: 'aws-modern-connection'
+              providerAwsRegion: 'ap-south-1'
+              
