@@ -6,6 +6,6 @@ module "ecs" {
   aws_ecs_cluster              = "mycluster"
   cloud_watch_name             = "/ecs/my-ecs-service"
   aws_ecs_service_name         = "ecs-service"
-  container_image              = "krishnamoorthy1/simple-blog:test"
+  container_image              = "krishnamoorthy1/simple-blog:1
   aws_ecs_task_definition_name = "mytask"
 }
