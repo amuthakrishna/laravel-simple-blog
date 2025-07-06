@@ -85,4 +85,3 @@ stages:
               providerServiceAws: 'aws-modern-connection'
               providerAwsRegion: 'ap-south-1'
           #    commandOptions: '-auto-approve -var="container_image=$(IMAGE_NAME):$(IMAGE_TAG)"'
-
